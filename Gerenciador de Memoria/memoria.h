@@ -37,12 +37,12 @@ public:
 		Bloco *novo = inicio;
 
 		if (novo == NULL)
-		{
 			return NULL;
-		}
 
-		for (; novo != NULL && novo->tamanho >= tam; novo = novo->prox)
-			;
+		for (; novo != NULL; novo = novo->prox)
+			if (novo->tamanho >= tam)
+				break;
+
 		return novo;
 	}
 
