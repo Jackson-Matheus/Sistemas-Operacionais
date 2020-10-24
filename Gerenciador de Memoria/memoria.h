@@ -3,19 +3,18 @@
 struct Bloco
 {
 	unsigned short int base;
-	unsigned short int tamanho; // bound
+	unsigned short int tamanho;
 	Bloco *prox;
 };
 
-class Lista
+class Memoria
 {
 private:
 	Bloco *inicio;
 
 public:
-	Lista(unsigned short int tamanho, unsigned short int base)
+	Memoria(unsigned short int tamanho, unsigned short int base)
 	{
-		this->inicio = new Bloco;
 		Bloco *novo = new Bloco;
 		novo->base = base;
 		novo->tamanho = tamanho;
@@ -27,35 +26,24 @@ public:
 		if (this->inicio == NULL)
 		{
 			inicio = bloco;
+			return;
 		}
-		else
-		{
-			bloco->prox = this->inicio;
-			inicio = bloco;
-		}
+		bloco->prox = this->inicio;
+		inicio = bloco;
+		return;
 	}
 	Bloco *inserir_first_fit(unsigned short int tam)
 	{
 		Bloco *novo = inicio;
-		Bloco *candidato = new Bloco;
 
 		if (novo == NULL)
 		{
 			return NULL;
 		}
-		else
-		{
-			while (novo != NULL)
-			{
-				if (novo->tamanho >= tam)
-				{
-					candidato = novo;
-					break;
-				}
-				novo = novo->prox;
-			}
-		}
-		return candidato;
+
+		for (; novo != NULL && novo->tamanho >= tam; novo = novo->prox)
+			;
+		return novo;
 	}
 
 	Bloco *inserir_best_fit(unsigned short int tam)
@@ -128,7 +116,7 @@ public:
 		delete aux;
 	}
 
-	~Lista()
+	~Memoria()
 	{
 		delete inicio;
 	}
