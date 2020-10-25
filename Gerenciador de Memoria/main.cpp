@@ -6,23 +6,19 @@ int main(int argc, char const *argv[])
 {
 	std::cout << "TAMANHO DA MEMORA: ";
 	int tamanho_memoria;
-	std::cin >> tamanho_memoria;
-
 	int politica;
-	std::cout << "BEST FIT - 0 ";
-	std::cout << "FIRST FIT - 1 ";
-	std::cout << "NEXT FIT - 2 ";
-	std::cout << "SAIR - 3 \n";
 
+	std::cin >> tamanho_memoria;
 	std::cout << "ESCOLHA A POLITICA DE ALOCAÇÃO ";
+	std::cout << "BEST FIT - 0  \n";
+	std::cout << "FIRST FIT - 1 \n";
+	std::cout << "NEXT FIT - 2  \n";
+	std::cout << "SAIR - 3      \n";
 	std::cin >> politica;
-	if (politica == 3)
-		exit(0);
 
 	while (politica != 0 && politica != 1 && politica != 2)
 	{
 		std::cout << "NUMERO INVALIDO DIGITE OUTRO ";
-
 		std::cin >> politica;
 	}
 
@@ -31,23 +27,16 @@ int main(int argc, char const *argv[])
 	unsigned short int tam_aloca;
 	std::cout << "ESCOLHA O TAMANHO PARA SER ALOCADO ";
 	std::cin >> tam_aloca;
+	char *ptr_ = gerenciador.aloca(tam_aloca);
+	int i = 0;
+	while (i < 10)
+	{
+		char *ptr_ = gerenciador.aloca(tam_aloca);
+		gerenciador.imprimeDados();
+		gerenciador.libera(ptr_);
 
-	char *ptr_regiao_alocada = gerenciador.aloca(tam_aloca);
-	std::cout << "ALOCADO !!!"
-			  << "\n";
-	std::cout << "REGIAO LIVRE"
-			  << "\n";
-	gerenciador.imprimeDados();
-
-	//para desalocar a regiao, basta passr ptr_regiao_alocada em gerendiador.libera()
-
-	gerenciador.libera(ptr_regiao_alocada);
-	std::cout << "REGIAO LIVRE"
-			  << "\n";
-	std::cout << "\nDESALOCADO"
-			  << "\n";
-
-	gerenciador.imprimeDados();
+		i++;
+	}
 
 	std::cout << "\n";
 

@@ -30,7 +30,6 @@ public:
 		}
 		bloco->prox = this->inicio;
 		inicio = bloco;
-		return;
 	}
 	Bloco *inserir_first_fit(unsigned short int tam)
 	{
@@ -39,9 +38,8 @@ public:
 		if (novo == NULL)
 			return NULL;
 
-		for (; novo != NULL; novo = novo->prox)
-			if (novo->tamanho >= tam)
-				break;
+		for (; novo != NULL && novo->tamanho < tam; novo = novo->prox)
+			;
 
 		return novo;
 	}
@@ -53,12 +51,27 @@ public:
 
 		candidato = this->inicio;
 		novo = candidato->prox;
-
 		while (novo != NULL)
 		{
 			if (novo->tamanho >= tam && novo->tamanho < candidato->tamanho)
 				candidato = novo;
+			novo = novo->prox;
+		}
 
+		return candidato;
+	}
+	Bloco *inserir_worst_fit(unsigned short int tam)
+	{
+		Bloco *candidato = new Bloco;
+		Bloco *novo = new Bloco;
+
+		candidato = this->inicio;
+		novo = candidato->prox;
+
+		while (novo != NULL)
+		{
+			if (novo->tamanho >= tam && novo->tamanho > candidato->tamanho)
+				candidato = novo;
 			novo = novo->prox;
 		}
 
@@ -71,13 +84,8 @@ public:
 		Bloco *aux = new Bloco;
 		aux = inicio;
 		bool achou = false;
-		for (; aux != NULL; aux = aux->prox)
-		{
-			if (aux->base == novo->base && aux->tamanho == novo->tamanho && aux->prox == novo->prox)
-				achou = true;
-
-			break;
-		}
+		for (; aux != NULL && aux->base != novo->base && aux->tamanho != novo->tamanho && aux->prox != novo->prox; aux = aux->prox)
+			;
 
 		aux->tamanho = aux->tamanho - tamanho;
 		aux->base += tamanho;
